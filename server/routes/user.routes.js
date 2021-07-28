@@ -4,6 +4,9 @@ module.exports = (app) => {
   const express = require("express");
   const router = express.Router();
 
+  // check if currently logged in as user.
+  router.get("/me", user.me);
+
   // Create a new user
   router.post("/register", user.register);
 

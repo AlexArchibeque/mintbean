@@ -13,6 +13,37 @@ const cookieOptions = {
   httpOnly: true,
 };
 
+exports.me = async (req, res) => {
+  const token = req.cookies.token;
+  //   console.log("token: ", token);
+  //   console.log("user:", req.user);
+
+  if (token) {
+    let decodedId;
+    jwt.verify(token, process.env.SESSION_SECRET, async (err, decoded) => {
+      decodedId = decoded.id;
+    });
+    try {
+      const user = await User.findByPk(decodedId);
+      if (user.dataValues.id === req.user.dataValues.id) {
+        return res.json(user);
+      } else {
+        return res.status(400).send({
+          message: "No user found.",
+        });
+      }
+    } catch (err) {
+      return res.status(400).send({
+        message: err.message || "No user found.",
+      });
+    }
+  }
+
+  return res.status(400).send({
+    message: "Not Logged In!",
+  });
+};
+
 // Create and Save a new User
 exports.register = async (req, res) => {
   let password = req.body.password;
@@ -92,9 +123,6 @@ exports.login = async (req, res) => {
     });
   }
 };
-
-// // Retrieve all Users from the database.
-// exports.findAll = (req, res) => {};
 
 // Find a single User with an id
 exports.findOne = async (req, res) => {

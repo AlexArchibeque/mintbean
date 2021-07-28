@@ -2,6 +2,10 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const db = require("./db/index.js");
+const jwt = require("jsonwebtoken");
+const cookieParser = require("cookie-parser");
+
+const User = db.user;
 
 const corsOptions = {
   origin: "http://localhost:3000",
@@ -17,6 +21,28 @@ const main = async () => {
 
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
+  app.use(cookieParser());
+
+  app.use((req, res, next) => {
+    const token = req.cookies.token;
+
+    if (token) {
+      jwt.verify(token, process.env.SESSION_SECRET, async (err, decoded) => {
+        try {
+          const user = await User.findOne({
+            where: { id: decoded.id },
+          });
+
+          req.user = user;
+          return next();
+        } catch (err) {
+          return next();
+        }
+      });
+    } else {
+      return next();
+    }
+  });
 
   // await db.sequelize.sync();
 
