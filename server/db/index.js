@@ -3,22 +3,21 @@ const dbConfig = require("./db.config");
 const Sequelize = require("sequelize");
 const keys = require("../keys/keys");
 
-const sequelize = new Sequelize(
-  keys.PG_URL || dbConfig.DB,
-  dbConfig.USER,
-  dbConfig.PASSWORD,
-  {
-    host: dbConfig.HOST,
-    dialect: dbConfig.dialect,
+let sequelize;
 
-    pool: {
-      max: dbConfig.pool.max,
-      min: dbConfig.pool.min,
-      acquire: dbConfig.pool.acquire,
-      idle: dbConfig.pool.idle,
-    },
-  }
-);
+keys.PG_URL
+  ? (sequelize = new Sequelize(keys.PG_UIRL))
+  : (sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
+      host: dbConfig.HOST,
+      dialect: dbConfig.dialect,
+
+      pool: {
+        max: dbConfig.pool.max,
+        min: dbConfig.pool.min,
+        acquire: dbConfig.pool.acquire,
+        idle: dbConfig.pool.idle,
+      },
+    }));
 
 const db = {};
 
