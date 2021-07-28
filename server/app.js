@@ -58,10 +58,11 @@ const main = async () => {
     console.log(`Server started on port ${PORT}.`);
   });
 
+  // console.log("DIRECTORY: ", path.resolve(__dirname, ".."));
   if (process.env.NODE_ENV === "production") {
     app.use(express.static("../web/build"));
     app.get("/", (req, res) => {
-      res.sendFile(path.resolve(__dirname, "web", "build", "index.html"));
+      res.sendFile(path.resolve(__dirname, "..", "web", "build", "index.html"));
     });
   }
 };
