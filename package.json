@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "./server/app.js",
+  "homepage": "https://mintbean.herokuapp.com/",
   "scripts": {
     "start": "node ./server/app.js",
     "dev": "nodemon ./server/app.js",
