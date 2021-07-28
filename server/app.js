@@ -18,13 +18,15 @@ const main = async () => {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
 
-  db.sequelize.sync();
+  // await db.sequelize.sync();
 
-  // db.sequelize.sync({ force: true }).then(() => {
-  //   console.log("Drop and re-sync db.");
-  // });
+  await db.sequelize.sync({ force: true }).then(() => {
+    console.log("Drop and re-sync db.");
+  });
 
-  app.listen(PORT, () => {
+  await require("./routes/user.routes.js")(app);
+
+  await app.listen(PORT, () => {
     console.log(`Server started on port ${PORT}.`);
   });
 };
