@@ -5,7 +5,8 @@
   "main": "./server/app.js",
   "scripts": {
     "start": "node ./server/app.js",
-    "dev": "nodemon ./server/app.js"
+    "dev": "nodemon ./server/app.js",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix web && npm run build --prefix web"
   },
   "keywords": [],
   "author": "",
