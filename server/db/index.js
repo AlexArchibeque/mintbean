@@ -6,7 +6,18 @@ const keys = require("../keys/keys");
 let sequelize;
 
 keys.PG_URL
-  ? (sequelize = new Sequelize(keys.PG_URL, { dialect: "postgres" }))
+  ? (sequelize = new Sequelize(keys.PG_URL, {
+      dialect: "postgres",
+      protocol: "postgres",
+      port: 5432,
+      logging: true, //false
+      dialectOptions: {
+        ssl: {
+          require: true,
+          rejectUnauthorized: false,
+        },
+      },
+    }))
   : (sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
       host: dbConfig.HOST,
       dialect: dbConfig.dialect,
