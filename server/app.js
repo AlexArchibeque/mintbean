@@ -5,6 +5,7 @@ const db = require("./db/index.js");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 const keys = require("./keys/keys");
+const path = require("path");
 
 const User = db.user;
 
@@ -56,6 +57,13 @@ const main = async () => {
   await app.listen(PORT, () => {
     console.log(`Server started on port ${PORT}.`);
   });
+
+  if (process.env.NODE_ENV === "production") {
+    app.use(express.static("../web/build"));
+    app.get("/", (req, res) => {
+      res.sendFile(path.resolve(__dirname, "web", "build", "index.html"));
+    });
+  }
 };
 
 main().catch((errors) => {
