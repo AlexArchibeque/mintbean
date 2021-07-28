@@ -2,4 +2,4 @@
 .env
 
 # File used for secret keys
-/keys/keys_dev.js
+/server/keys/keys_dev.js
