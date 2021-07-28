@@ -60,9 +60,10 @@ const main = async () => {
 
   // console.log("DIRECTORY: ", path.resolve(__dirname, ".."));
   if (process.env.NODE_ENV === "production") {
-    app.use(express.static("../web/build"));
+    const root = path.resolve(__dirname, "..", "web", "build");
+    app.use(express.static(root));
     app.get("*", (req, res) => {
-      res.sendFile(path.resolve(__dirname, "..", "web", "build", "index.html"));
+      res.sendFile("index.html", { root });
     });
   }
 };
