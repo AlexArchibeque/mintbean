@@ -2,6 +2,7 @@ const db = require("../db/index");
 const User = db.user;
 const Op = db.Sequelize.Op;
 const jwt = require("jsonwebtoken");
+const keys = require("../keys/keys");
 
 const argon2 = require("argon2");
 
@@ -20,7 +21,7 @@ exports.me = async (req, res) => {
 
   if (token) {
     let decodedId;
-    jwt.verify(token, process.env.SESSION_SECRET, async (err, decoded) => {
+    jwt.verify(token, keys.SESSION_SECRET, async (err, decoded) => {
       decodedId = decoded.id;
     });
     try {
@@ -81,7 +82,7 @@ exports.register = async (req, res) => {
   try {
     const user = await User.create(userInfo);
 
-    const token = jwt.sign({ id: user.id }, process.env.SESSION_SECRET, {
+    const token = jwt.sign({ id: user.id }, keys.SESSION_SECRET, {
       expiresIn: loginExpiration,
     });
 
@@ -106,7 +107,7 @@ exports.login = async (req, res) => {
     const valid = await argon2.verify(user.password, password);
 
     if (valid) {
-      const token = jwt.sign({ id: user.id }, process.env.SESSION_SECRET, {
+      const token = jwt.sign({ id: user.id }, keys.SESSION_SECRET, {
         expiresIn: loginExpiration,
       });
 

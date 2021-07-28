@@ -1,14 +1,9 @@
-if (process.env.NODE_ENV !== "production") {
-  require("dotenv").config();
-}
-
-let postgresUsername = process.env.PG_USERNAME;
-let postgresPassword = process.env.PG_PASSWORD;
+const keys = require("../keys/keys");
 
 module.exports = {
   HOST: "localhost",
-  USER: postgresUsername,
-  PASSWORD: postgresPassword,
+  USER: keys.PG_USERNAME,
+  PASSWORD: keys.PG_PASSWORD,
   DB: "pokerdb",
   dialect: "postgres",
   pool: {

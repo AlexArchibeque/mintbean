@@ -13,9 +13,6 @@ module.exports = (app) => {
   // Create a new user
   router.post("/login", user.login);
 
-  //   // Retrieve all user
-  //   router.get("/", user.findAll);
-
   // Retrieve a single user with id
   router.get("/:id", user.findOne);
 

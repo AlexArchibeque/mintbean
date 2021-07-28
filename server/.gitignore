@@ -1,2 +1,5 @@
 /node_modules
 .env
+
+# File used for secret keys
+/keys/keys_dev.js

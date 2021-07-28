@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const db = require("./db/index.js");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
+const keys = require("./keys/keys");
 
 const User = db.user;
 
@@ -27,7 +28,7 @@ const main = async () => {
     const token = req.cookies.token;
 
     if (token) {
-      jwt.verify(token, process.env.SESSION_SECRET, async (err, decoded) => {
+      jwt.verify(token, keys.SESSION_SECRET, async (err, decoded) => {
         try {
           const user = await User.findOne({
             where: { id: decoded.id },
