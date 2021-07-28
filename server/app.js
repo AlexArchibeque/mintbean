@@ -45,11 +45,11 @@ const main = async () => {
     }
   });
 
-  // await db.sequelize.sync();
+  await db.sequelize.sync();
 
-  await db.sequelize.sync({ force: true }).then(() => {
-    console.log("Drop and re-sync db.");
-  });
+  // await db.sequelize.sync({ force: true }).then(() => {
+  //   console.log("Drop and re-sync db.");
+  // });
 
   await require("./routes/user.routes.js")(app);
 
