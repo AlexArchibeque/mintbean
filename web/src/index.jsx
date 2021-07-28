@@ -2,15 +2,31 @@ import React from "react";
 import ReactDOM from "react-dom";
 import Root from "./root";
 import configureStore from "./store/store";
+import jwt_decode from "jwt-decode";
+import { setAuthToken } from "./util/session_api_util";
+import { logout } from "./actions/session_actions";
 
 document.addEventListener("DOMContentLoaded", () => {
   const rootEl = document.getElementById("root");
-
   let preLoadedState = undefined;
+  let store;
 
-  // add Authentication
+  if (localStorage.jwtToken) {
+    setAuthToken(localStorage.jwtToken);
+    const decodedUser = jwt_decode(localStorage.jwtToken);
+    preLoadedState = { session: { isAuthenticated: true, user: decodedUser } };
 
-  const store = configureStore(preLoadedState);
+    store = configureStore(preLoadedState);
+
+    const currentTime = Date.now() / 1000;
+    if (decodedUser.exp < currentTime) {
+      store.dispatch(logout());
+      window.location.href = "/login";
+    }
+  } else {
+    store = configureStore({});
+  }
+
   ReactDOM.render(<Root store={store} />, rootEl);
 
   // For testing purposes
