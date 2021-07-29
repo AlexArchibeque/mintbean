@@ -8,18 +8,13 @@ const keys = require("./keys/keys");
 const path = require("path");
 
 const User = db.user;
-
-const corsOptions = {
-  origin: "http://localhost:3000",
-};
-
 const PORT = process.env.PORT || 4000;
 
 const main = async () => {
   const app = express();
 
   // Middleware
-  app.use(cors(corsOptions));
+  app.use(cors());
 
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
