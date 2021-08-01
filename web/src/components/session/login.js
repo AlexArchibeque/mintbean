@@ -1,21 +1,20 @@
 import React from "react";
 import { connect } from "react-redux";
 import { login } from "../../actions/session_actions";
-import { Formik, Form } from "formik";
+import { Formik, Form, Field } from "formik";
 import {
   Box,
   Button,
-  Link,
-  Flex,
   FormControl,
   FormLabel,
   FormErrorMessage,
-  FormHelperText,
   Input,
 } from "@chakra-ui/react";
 import { Wrapper } from "../reusables/wrapper";
 
-const LoginForm = () => {
+const LoginForm = (props) => {
+  let error = null;
+
   return (
     <Wrapper variant="small">
       <Formik
@@ -25,19 +24,47 @@ const LoginForm = () => {
         }}
       >
         <Form>
-          <FormControl id="Username">
-            <FormLabel>Username</FormLabel>
-            <Input type="username" />
-          </FormControl>
-          <FormControl id="password">
-            <FormLabel>Password</FormLabel>
-            <Input type="password" />
-          </FormControl>
+          <Field name="username">
+            {({ field, form }) => (
+              <FormControl isInvalid={form.errors.name}>
+                <FormLabel htmlFor="username">Username</FormLabel>
+                <Input
+                  {...field}
+                  name="username"
+                  placeholder="username"
+                  label="username"
+                  type="username"
+                  id="username"
+                />
+                {error ? <FormErrorMessage>{error}</FormErrorMessage> : null}
+              </FormControl>
+            )}
+          </Field>
+
+          <Box mt={4}>
+            <Field name="password">
+              {({ field, form }) => (
+                <FormControl isInvalid={form.errors.name}>
+                  <FormLabel htmlFor="password">Password</FormLabel>
+                  <Input
+                    {...field}
+                    name="password"
+                    placeholder="password"
+                    label="Password"
+                    type="password"
+                    id="password"
+                  />
+                  {error ? <FormErrorMessage>{error}</FormErrorMessage> : null}
+                </FormControl>
+              )}
+            </Field>
+          </Box>
+
+          <Button mt={4} type="submit" colorScheme="teal">
+            Login
+          </Button>
         </Form>
       </Formik>
-      <h1>Login</h1>
-      <div className="errors-div"></div>
-      <form className="inner-login-container"></form>
     </Wrapper>
   );
 };

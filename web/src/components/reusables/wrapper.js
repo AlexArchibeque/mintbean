@@ -1,7 +1,7 @@
 import React from "react";
 import { Box } from "@chakra-ui/react";
 
-export const Wrapper = (props, { children, variant = "regular" }) => {
+export const Wrapper = ({ children, variant = "regular" }) => {
   //   console.log(props);
   return (
     <Box
