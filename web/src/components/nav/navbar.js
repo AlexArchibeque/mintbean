@@ -2,7 +2,9 @@ import React from "react";
 import { connect } from "react-redux";
 import { logout } from "../../actions/session_actions";
 import { Link as ReactLink } from "react-router-dom";
-import { Flex, Button, Box, Link } from "@chakra-ui/react";
+import { Flex, Box, Link, Image } from "@chakra-ui/react";
+import CreateTable from "../tables/create";
+// import joinTable from '../tables/join';
 
 const NavBar = (props) => {
   const logoutUser = () => {
@@ -12,9 +14,35 @@ const NavBar = (props) => {
   let right = null;
   let left = null;
 
+  let user = props.userInfo;
+
   if (props.loggedIn) {
+    left = (
+      // come back and fix this.
+      <Flex>
+        <CreateTable />
+      </Flex>
+    );
     right = (
       <Flex>
+        <Flex>
+          <Box ml={4}>Hi {user.username}!</Box>
+          <Box ml={2}>
+            {" "}
+            <Image
+              height={25}
+              width={25}
+              src={user.photoUrl}
+              borderRadius="50"
+              // border="1px"
+              // borderColor="black"
+            />
+          </Box>
+          <Box ml={4} mr={4}>
+            MB: {user.mintbeans}
+          </Box>
+        </Flex>
+
         <Link>
           <ReactLink to={"/"}>Home</ReactLink>
         </Link>
@@ -22,13 +50,6 @@ const NavBar = (props) => {
         <Link onClick={() => logoutUser()} ml={4}>
           Logout
         </Link>
-      </Flex>
-    );
-    left = (
-      // come back and fix this.
-      <Flex>
-        <Link>Create Room</Link>
-        <Link ml={4}>Join Room</Link>
       </Flex>
     );
   } else {
@@ -58,7 +79,7 @@ const NavBar = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  currentState: state,
+  userInfo: state.session.user,
   loggedIn: state.session.isAuthenticated,
 });
 
