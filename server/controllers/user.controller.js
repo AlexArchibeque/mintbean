@@ -82,13 +82,20 @@ exports.register = async (req, res) => {
   try {
     const user = await User.create(userInfo);
 
-    const token = jwt.sign({ id: user.id }, keys.SESSION_SECRET, {
+    const payload = {
+      id: user.id,
+      username: user.username,
+      photoUrl: user.photoUrl,
+      mintbeans: user.mintbeans,
+    };
+
+    const token = jwt.sign(payload, keys.SESSION_SECRET, {
       expiresIn: loginExpiration,
     });
 
     res.cookie("token", token, cookieOptions);
 
-    return res.json(user);
+    return res.json({ success: true, token: "Bearer " + token });
   } catch (err) {
     return res.status(500).send({
       message: err.message || "Some error occurred while creating the User.",

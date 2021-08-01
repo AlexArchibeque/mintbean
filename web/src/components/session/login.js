@@ -22,6 +22,9 @@ const LoginForm = (props) => {
 
   return (
     <Wrapper variant="small">
+      <Box fontSize="20" fontWeight="600">
+        Login
+      </Box>
       <Formik
         initialValues={{ username: "", password: "" }}
         onSubmit={async (values) => {
@@ -33,24 +36,26 @@ const LoginForm = (props) => {
         }}
       >
         <Form>
-          <Field name="username">
-            {({ field }) => (
-              <FormControl isInvalid={errors.username}>
-                <FormLabel htmlFor="username">Username</FormLabel>
-                <Input
-                  {...field}
-                  name="username"
-                  placeholder="username"
-                  label="username"
-                  type="username"
-                  id="username"
-                />
-                {errors.username ? (
-                  <FormErrorMessage>{errors.username}</FormErrorMessage>
-                ) : null}
-              </FormControl>
-            )}
-          </Field>
+          <Box mt={4}>
+            <Field name="username">
+              {({ field }) => (
+                <FormControl isInvalid={errors.username}>
+                  <FormLabel htmlFor="username">Username</FormLabel>
+                  <Input
+                    {...field}
+                    name="username"
+                    placeholder="username"
+                    label="username"
+                    type="username"
+                    id="username"
+                  />
+                  {errors.username ? (
+                    <FormErrorMessage>{errors.username}</FormErrorMessage>
+                  ) : null}
+                </FormControl>
+              )}
+            </Field>
+          </Box>
 
           <Box mt={4}>
             <Field name="password">
