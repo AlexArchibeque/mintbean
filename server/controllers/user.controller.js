@@ -30,12 +30,12 @@ exports.me = async (req, res) => {
         return res.json(user);
       } else {
         return res.status(400).send({
-          message: "No user found.",
+          username: "No user found.",
         });
       }
     } catch (err) {
       return res.status(400).send({
-        message: err.message || "No user found.",
+        username: err.message || "No user found.",
       });
     }
   }
@@ -52,19 +52,19 @@ exports.register = async (req, res) => {
 
   if (!password || password.length < 2) {
     return res.status(400).send({
-      message: "Password is too short.",
+      password: "Password is too short.",
     });
   }
 
   if (!username) {
     return res.status(400).send({
-      message: "There needs to be a username.",
+      username: "There needs to be a username.",
     });
   }
 
   if (await User.findOne({ where: { username: username } })) {
     return res.status(400).send({
-      message: "Username Taken.",
+      username: `Username ${username} taken.`,
     });
   }
 
@@ -107,20 +107,28 @@ exports.login = async (req, res) => {
     const valid = await argon2.verify(user.password, password);
 
     if (valid) {
-      const token = jwt.sign({ id: user.id }, keys.SESSION_SECRET, {
+      const payload = {
+        id: user.id,
+        username: user.username,
+        photoUrl: user.photoUrl,
+        mintbeans: user.mintbeans,
+      };
+
+      const token = jwt.sign(payload, keys.SESSION_SECRET, {
         expiresIn: loginExpiration,
       });
 
       res.cookie("token", token, cookieOptions);
-      return res.json(user);
+
+      return res.json({ success: true, token: "Bearer " + token });
     } else {
       return res.status(400).send({
-        message: `Invalid password.`,
+        password: `Invalid password.`,
       });
     }
   } else {
     return res.status(400).send({
-      message: `No user named ${username}`,
+      username: `No user named ${username}`,
     });
   }
 };
@@ -134,7 +142,7 @@ exports.findOne = async (req, res) => {
       return res.json(user);
     } else {
       return res.status(400).send({
-        message: "No user found.",
+        username: "No user found.",
       });
     }
   } catch (err) {

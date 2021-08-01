@@ -11,22 +11,31 @@ import {
   Input,
 } from "@chakra-ui/react";
 import { Wrapper } from "../reusables/wrapper";
+import { useState, useEffect } from "react";
 
 const LoginForm = (props) => {
-  let error = null;
+  const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    setErrors(props.errors);
+  }, [props.errors]);
 
   return (
     <Wrapper variant="small">
       <Formik
         initialValues={{ username: "", password: "" }}
         onSubmit={async (values) => {
-          console.log(values);
+          const response = await props.login(values);
+
+          if (response) {
+            props.history.push("/");
+          }
         }}
       >
         <Form>
           <Field name="username">
-            {({ field, form }) => (
-              <FormControl isInvalid={form.errors.name}>
+            {({ field }) => (
+              <FormControl isInvalid={errors.username}>
                 <FormLabel htmlFor="username">Username</FormLabel>
                 <Input
                   {...field}
@@ -36,15 +45,17 @@ const LoginForm = (props) => {
                   type="username"
                   id="username"
                 />
-                {error ? <FormErrorMessage>{error}</FormErrorMessage> : null}
+                {errors.username ? (
+                  <FormErrorMessage>{errors.username}</FormErrorMessage>
+                ) : null}
               </FormControl>
             )}
           </Field>
 
           <Box mt={4}>
             <Field name="password">
-              {({ field, form }) => (
-                <FormControl isInvalid={form.errors.name}>
+              {({ field }) => (
+                <FormControl isInvalid={errors.password}>
                   <FormLabel htmlFor="password">Password</FormLabel>
                   <Input
                     {...field}
@@ -54,7 +65,9 @@ const LoginForm = (props) => {
                     type="password"
                     id="password"
                   />
-                  {error ? <FormErrorMessage>{error}</FormErrorMessage> : null}
+                  {errors.password ? (
+                    <FormErrorMessage>{errors.password}</FormErrorMessage>
+                  ) : null}
                 </FormControl>
               )}
             </Field>
@@ -70,11 +83,15 @@ const LoginForm = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  return {};
+  return {
+    errors: state.errors.session,
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {};
+  return {
+    login: (userData) => dispatch(login(userData)),
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);

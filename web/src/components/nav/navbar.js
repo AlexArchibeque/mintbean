@@ -4,7 +4,6 @@ import { logout } from "../../actions/session_actions";
 import { Link } from "react-router-dom";
 
 const NavBar = (props) => {
-  console.log(props);
   const logoutUser = () => {
     props.logout();
   };
