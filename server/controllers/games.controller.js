@@ -1,6 +1,6 @@
 const Deck = require("../games/deck");
 
-exports.blackjack = async (req, res) => {
+exports.deck = async (req, res) => {
   try {
     let deck = await new Deck(req.body.decksize);
 

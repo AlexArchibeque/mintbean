@@ -1,12 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { Box, Button, Flex } from "@chakra-ui/react";
+import { Box, Button, Flex, Image } from "@chakra-ui/react";
+import { connect } from "react-redux";
+import { getDeck } from "../../util/game_api_util";
 
 const BlackJack = ({ info }) => {
   const [gameInfo, setGameInfo] = useState({});
 
   // Set up game run before render.
   useEffect(() => {
-    setGameInfo({ yes: "yes" });
+    let deck;
+
+    getDeck(parseInt(info.decks)).then((res) => {
+      deck = res.data.deck;
+      let newGameInfo = { deck, type: "blackjack" };
+      console.log(newGameInfo);
+      setGameInfo(newGameInfo);
+    });
   }, []);
 
   return (
@@ -21,6 +30,16 @@ const BlackJack = ({ info }) => {
         <Flex flexDirection="column">
           <h1>{info.title}</h1>
           <Box>Cards Area</Box>
+          {gameInfo.deck
+            ? gameInfo.deck.map((card) => {
+                return (
+                  <div>
+                    <Image src="web/public/images/cards/2_of_clubs.png" />
+                    {card.value}
+                  </div>
+                );
+              })
+            : null}
         </Flex>
 
         {/* User area */}
@@ -40,4 +59,14 @@ const BlackJack = ({ info }) => {
   );
 };
 
-export default BlackJack;
+const mapStateToProps = (state) => {
+  return {
+    state: state,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(BlackJack);

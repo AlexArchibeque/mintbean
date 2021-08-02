@@ -4,7 +4,7 @@ module.exports = (app) => {
   const express = require("express");
   const router = express.Router();
 
-  router.post("/blackjack", game.blackjack);
+  router.post("/deck", game.deck);
 
   app.use("/api/game", router);
 };
