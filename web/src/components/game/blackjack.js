@@ -1,8 +1,14 @@
-import React from "react";
-
+import React, { useState, useEffect } from "react";
 import { Box, Button, Flex } from "@chakra-ui/react";
 
 const BlackJack = ({ info }) => {
+  const [gameInfo, setGameInfo] = useState({});
+
+  // Set up game run before render.
+  useEffect(() => {
+    setGameInfo({ yes: "yes" });
+  }, []);
+
   return (
     <Flex alignItems="center" justifyContent="center" h="100%">
       <Flex

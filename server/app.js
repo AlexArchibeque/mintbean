@@ -48,6 +48,7 @@ const main = async () => {
   // });
 
   await require("./routes/user.routes.js")(app);
+  await require("./routes/game.routes.js")(app);
 
   await app.listen(PORT, () => {
     console.log(`Server started on port ${PORT}.`);
