@@ -1,9 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { Link as ReactLink } from "react-router-dom";
-import { Flex, Box, Link, Image } from "@chakra-ui/react";
-import { useState } from "react";
+import { Link } from "@chakra-ui/react";
 import { receiveCreateTableForm } from "../../actions/form_actions";
 
 const CreateTable = (props) => {
