@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Button, Flex, Image } from "@chakra-ui/react";
+import { Box, Button, Flex } from "@chakra-ui/react";
 import { connect } from "react-redux";
 import { getDeck } from "../../util/game_api_util";
 
@@ -13,7 +13,6 @@ const BlackJack = ({ info }) => {
     getDeck(parseInt(info.decks)).then((res) => {
       deck = res.data.deck;
       let newGameInfo = { deck, type: "blackjack" };
-      console.log(newGameInfo);
       setGameInfo(newGameInfo);
     });
   }, []);
@@ -30,16 +29,6 @@ const BlackJack = ({ info }) => {
         <Flex flexDirection="column">
           <h1>{info.title}</h1>
           <Box>Cards Area</Box>
-          {gameInfo.deck
-            ? gameInfo.deck.map((card) => {
-                return (
-                  <div>
-                    <Image src="web/public/images/cards/2_of_clubs.png" />
-                    {card.value}
-                  </div>
-                );
-              })
-            : null}
         </Flex>
 
         {/* User area */}
