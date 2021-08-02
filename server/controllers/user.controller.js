@@ -50,15 +50,21 @@ exports.register = async (req, res) => {
   let password = req.body.password;
   let username = req.body.username;
 
-  if (!password || password.length < 2) {
-    return res.status(400).send({
-      password: "Password is too short.",
-    });
-  }
-
   if (!username) {
     return res.status(400).send({
       username: "There needs to be a username.",
+    });
+  }
+
+  if (username.length < 2) {
+    return res.status(400).send({
+      username: "Username is too short.",
+    });
+  }
+
+  if (!password || password.length < 2) {
+    return res.status(400).send({
+      password: "Password is too short.",
     });
   }
 
