@@ -17,6 +17,8 @@ const BlackJack = ({ info }) => {
     });
   }, []);
 
+  console.log(gameInfo);
+
   return (
     <Flex alignItems="center" justifyContent="center" h="100%">
       <Flex
@@ -29,6 +31,15 @@ const BlackJack = ({ info }) => {
         <Flex flexDirection="column">
           <h1>{info.title}</h1>
           <Box>Cards Area</Box>
+          {gameInfo.deck
+            ? gameInfo.deck.map((card) => {
+                return (
+                  <div>
+                    <img src={card.image} />
+                  </div>
+                );
+              })
+            : null}
         </Flex>
 
         {/* User area */}
